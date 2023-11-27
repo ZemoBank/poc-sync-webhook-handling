@@ -2,22 +2,25 @@
 import express, { Request, Response } from 'express';
 import ApiClient from './api-client';
 import { EventManager } from './event-manager';
+import { RedisClient } from './redis-client';
 
 
 const timeout = parseInt(process.env.TIMEOUT || "5000", 10);
 const domain = process.env.DOMAIN || "";
 const apikey = process.env.APIKEY || "";
 
-const eventManager = new EventManager(timeout);
+const publisher = new RedisClient()
+const subscriber = new RedisClient()
+const eventManager = new EventManager(timeout, publisher, subscriber);
 const client = new ApiClient(domain, apikey, timeout);
 
 const app = express();
 app.use(express.json());
 
-app.post('/webhook', (req: Request, res: Response) => {
+app.post('/webhook', async (req: Request, res: Response) => {
   // emit message using req.body.external_id
   console.log('ASYNC RESPONSE -- ', req.body)
-  eventManager.trigger(req.body.external_id, req.body)
+  await eventManager.trigger(req.body)
   return res.json({ message: 'Webhook received' });
 });
 
