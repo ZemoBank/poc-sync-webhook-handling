@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  poc-sync-webhook-handling-app1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: poc-sync-webhook-handling-app1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - PORT=3000
+    
+  poc-sync-webhook-handling-app2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: poc-sync-webhook-handling-app2
+    ports:
+      - "3001:3000"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - PORT=3000
