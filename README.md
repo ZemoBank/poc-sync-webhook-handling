@@ -35,8 +35,15 @@ O módulo **'ApiClient'** encapsula a lógica de comunicação com a API externa
 
 ## Execução
 
+Para executar o projeto, você tem a flexibilidade de escolher entre a forma tradicional ou utilizar Docker Compose. Aqui estão as instruções para ambos os métodos:
+
+### Tradicional
+
 1. Instale as dependências: **'npm install'**.
 2. Configure as variáveis de ambiente.
 3. Execute o projeto: **'npm start'**.
+
+### Docker Compose
+1. docker-compose up -d
 
 > Lembre-se de adaptar o código conforme necessário para atender aos requisitos específicos do seu ambiente e integração. Este projeto é uma base flexível que pode ser expandida para atender a diferentes casos de uso.
