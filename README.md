@@ -21,7 +21,13 @@ O arquivo **app.ts** é o ponto de entrada da aplicação e contém a lógica pr
 
 ### **'event-manager.ts'**
 
-O módulo **'EventManager'** gerencia eventos assíncronos. Ele possui métodos para assistir a eventos, acionar eventos e lidar com erros. Os eventos são associados a um ID externo e podem ter listeners para sucesso, timeout e erro.
+O módulo **'EventManager'** gerencia eventos assíncronos utilizando o mecanismo de publish/subscribe (pub/sub). Este módulo incorpora uma abordagem mais escalável na gestão de eventos. Ele mantém métodos para assistir a eventos, acionar eventos e lidar com erros. Os eventos são associados a um ID externo e podem ter listeners para sucesso, timeout e erro. Com a integração do pub/sub, quando uma instância do servidor não possui um listener em memória, ela dispara um evento para um canal de comunicação, permitindo que outras instâncias sejam notificadas e possam lidar com o evento assíncrono de forma eficiente.
+
+A classe **'EventManager'** foi projetada seguindo uma interface que permite a integração com diferentes sistemas de pub/sub. Isso significa que a escolha da implementação específica do pub/sub fica a critério de quem está utilizando o módulo.
+
+### **'redis-client.ts'**
+
+No arquivo **'redis-client.ts'**, adicionamos uma classe chamada **'RedisClient'**. Esta classe encapsula a lógica necessária para interagir com o Redis, como a publicação e consumo de mensagens usando o mecanismo Pub/Sub. O canal utilizado para comunicação é denominado **'pubsub'**.
 
 ### **'api-client.ts'**
 
